@@ -122,6 +122,20 @@ rules:
   - list
   - watch
   - get
+- apiGroups:
+  - aci.accprov
+  resources:
+  - accprovisions
+  - accprovisions/status
+  - accprovisions/finalizers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 ---
 apiVersion: {{ config.kube_config.use_rbac_api }}
 kind: ClusterRoleBinding
@@ -182,6 +196,33 @@ spec:
           value: "{{ config.kube_config.system_namespace}}"
         - name: ACC_PROVISION_FLAVOR
           value: "{{ config.flavor }}"
+      - args:
+        - --enable-leader-election
+        - --leader-election-id=acc-provision-operator
+        env:
+        - name: ANSIBLE_GATHERING
+          value: explicit
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: ACI_CERT_PATH
+          value: /usr/local/etc/aci-cert/
+        - name: ACC_PROVISION_FLAVOR
+          value: "{{ config.flavor }}"
+        - name: SYSTEM_ID
+          value: {{ config.aci_config.system_id }}
+        - name: APIC
+          value: {{ config.aci_config.apic_hosts[0] }}
+        image: {{ config.registry.image_prefix }}/acc-provision-operator:{{ config.registry.acc_provision_operator_version }}
+        imagePullPolicy: {{ config.kube_config.image_pull_policy }}
+        name: acc-provision-operator
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /usr/local/etc/aci-cert/
+          name: aci-user-cert-volume
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -200,3 +241,7 @@ spec:
           items:
             - key: spec
               path: aci-operator.conf
+      - name: aci-user-cert-volume
+        secret:
+          defaultMode: 420
+          secretName: aci-user-cert
