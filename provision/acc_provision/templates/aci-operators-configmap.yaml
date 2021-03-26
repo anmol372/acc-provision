@@ -13,65 +13,6 @@ data:
     {
         "acc_provision_input": {
             "deployment_operator": true,
-            "aci_config": {
-                {% if config.aci_config.sync_login.certfile and config.aci_config.sync_login.keyfile %}
-                "sync_login": {
-                 "certfile": {{ config.aci_config.sync_login.certfile|json }},
-                 "keyfile": {{ config.aci_config.sync_login.keyfile|json }}
-                },
-                {% endif %}
-                "client_ssl": {{ config.aci_config.client_ssl|json }}
-            },
-            "net_config": {
-                {% if config.net_config.interface_mtu %}
-                "interface_mtu": {{ config.net_config.interface_mtu|json }},
-                {% endif %}
-                "service_monitor_interval": {{ config.net_config.service_monitor_interval|json }},
-                "pbr_tracking_non_snat": {{ config.net_config.pbr_tracking_non_snat|json }}
-            },
-            "registry": {
-                "image_prefix": {{ config.registry.image_prefix|json }},
-                {% if config.registry.image_pull_secret %}
-                "image_pull_secret": {{ config.registry.image_pull_secret|json }},
-                {% endif %}
-                "aci_containers_controller_version":  {{ config.registry.aci_containers_controller_version|json }},
-                "aci_containers_host_version": {{ config.registry.aci_containers_host_version|json }},
-                "acc_provision_operator_version": {{ config.registry.acc_provision_operator_version|json }},
-                "cnideploy_version": {{ config.registry.cnideploy_version|json }},
-                "opflex_agent_version": {{ config.registry.opflex_agent_version|json }},
-                "openvswitch_version": {{ config.registry.openvswitch_version|json }},
-                "gbp_version": {{ config.registry.gbp_version|json }}
-            },
-            "logging": {
-                "controller_log_level": {{ config.logging.controller_log_level|json }},
-                "hostagent_log_level": {{ config.logging.hostagent_log_level|json }},
-                "opflexagent_log_level": {{ config.logging.opflexagent_log_level|json }}
-            },
-            "istio_config": {
-                "install_istio": {{ config.istio_config.install_istio|json }},
-                "install_profile": {{ config.istio_config.install_profile|json }}
-            },
-            "multus": {
-                "disable": {{ config.multus.disable|json }}
-            },
-            "drop_log_config": {
-                "enable": {{ config.drop_log_config.enable|json }}
-            },
-            "kube_config": {
-                "ovs_memory_limit": {{ config.kube_config.ovs_memory_limit|json }},
-                {% if config.kube_config.use_external_service_ip_allocator %}
-                "use_external_service_ip_allocator": {{ config.kube_config.use_external_service_ip_allocator|json }},
-                {% endif %}
-                {% if config.kube_config.use_privileged_containers %}
-                "use_privileged_containers": {{ config.kube_config.use_privileged_containers|json }},
-                {% endif %}
-                {% if config.kube_config.use_openshift_security_context_constraints %}
-                "use_openshift_security_context_constraints": {{ config.kube_config.use_openshift_security_context_constraints|json }},
-                {% endif %}
-                "allow_kube_api_default_epg": {{ config.kube_config.allow_kube_api_default_epg|json }},
-                "image_pull_policy": {{ config.kube_config.image_pull_policy|json }},
-                "reboot_opflex_with_ovs": {{ config.kube_config.reboot_opflex_with_ovs|json }}
-            }
         },
         "flavor": {{ config.flavor|json }},
         "config": {{ config.kube_config.deployment_base64|json }}

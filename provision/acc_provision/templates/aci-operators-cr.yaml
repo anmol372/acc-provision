@@ -6,55 +6,5 @@ metadata:
 spec:
  acc_provision_input:
    deployment_operator: True
-   aci_config:
-     {% if config.aci_config.sync_login.certfile and config.aci_config.sync_login.keyfile %}
-     sync_login:
-       certfile: {{ config.aci_config.sync_login.certfile }}
-       keyfile: {{ config.aci_config.sync_login.keyfile }}
-     {% endif %}
-     client_ssl: {{ config.aci_config.client_ssl }}
-   net_config:
-     {% if config.net_config.interface_mtu %}
-     interface_mtu: {{ config.net_config.interface_mtu }}
-     {% endif %}
-     service_monitor_interval: {{ config.net_config.service_monitor_interval }}
-     pbr_tracking_non_snat: {{ config.net_config.pbr_tracking_non_snat }}
-   registry:
-     image_prefix: {{ config.registry.image_prefix }}
-     {% if config.registry.image_pull_secret %}
-     image_pull_secret: {{ config.registry.image_pull_secret }}
-     {% endif %}
-     acc_provision_operator_version: {{ config.registry.acc_provision_operator_version }}
-     aci_containers_controller_version: {{ config.registry.aci_containers_controller_version }}
-     aci_containers_host_version: {{ config.registry.aci_containers_host_version }}
-     cnideploy_version: {{ config.registry.cnideploy_version }}
-     opflex_agent_version: {{ config.registry.opflex_agent_version }}
-     openvswitch_version: {{ config.registry.openvswitch_version }}
-     gbp_version: {{ config.registry.gbp_version }}
-   logging:
-     controller_log_level: {{ config.logging.controller_log_level }}
-     hostagent_log_level: {{ config.logging.hostagent_log_level }}
-     opflexagent_log_level: {{ config.logging.opflexagent_log_level }}
-   istio_config:
-     install_istio: {{ config.istio_config.install_istio }}
-     install_profile: {{ config.istio_config.install_profile }}
-   multus:
-     disable: {{ config.multus.disable }}
-   drop_log_config:
-     enable: {{ config.drop_log_config.enable }}
-   kube_config:
-     ovs_memory_limit: {{ config.kube_config.ovs_memory_limit }}
-     {% if config.kube_config.use_external_service_ip_allocator %}
-     use_external_service_ip_allocator: {{ config.kube_config.use_external_service_ip_allocator }}
-     {% endif %}
-     {% if config.kube_config.use_privileged_containers %}
-     use_privileged_containers: {{ config.kube_config.use_privileged_containers }}
-     {% endif %}
-     {% if config.kube_config.use_openshift_security_context_constraints %}
-     use_openshift_security_context_constraints: {{ config.kube_config.use_openshift_security_context_constraints }}
-     {% endif %}
-     allow_kube_api_default_epg: {{ config.kube_config.allow_kube_api_default_epg }}
-     image_pull_policy: {{ config.kube_config.image_pull_policy }}
-     reboot_opflex_with_ovs: "{{ config.kube_config.reboot_opflex_with_ovs }}"
  flavor: {{ config.flavor }}
  config: {{ config.kube_config.deployment_base64 }}
